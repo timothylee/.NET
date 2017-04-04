@@ -1,0 +1,40 @@
+﻿@model WebApplication1.ViewModels.HomeViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+</div>
+
+@{if (Model.ProductList != null)
+    {
+        <table>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Dealer Price
+                </th>
+            </tr>
+            
+            @foreach (var product in Model.ProductList)
+            {
+                <tr>
+                    <td>
+                        @product.ProductName
+                    </td>
+                    <td>
+                        @product.DealerPrice
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+}
+<br />
+Page @(Model.ProductList.PageCount < Model.ProductList.PageNumber ? 0 : Model.ProductList.PageNumber) of @Model.ProductList.PageCount
+
+@Html.PagedListPager(Model.ProductList, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
